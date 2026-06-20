@@ -1,0 +1,43 @@
+{
+  "tenant_id": "demo_royce_aesthetics_phase7",
+  "clinic_name": "Royce Aesthetics",
+  "demo_name": "Royce Aesthetics Demo Receptionist",
+  "source_website": "https://royceaesthetics.com/",
+  "location_summary": "Bahria Town Phase 7, Rawalpindi",
+  "phone_public": "0335-6377775",
+  "hours_public": "7 days a week, 12 PM - 5 PM",
+  "timezone": "Asia/Karachi",
+  "supported_languages": ["English", "Roman Urdu", "Urdu"],
+  "default_language": "Roman Urdu",
+  "appointment_mode": "demo_calendar_only",
+  "booking_slot_minutes": 30,
+  "human_handoff_destination": "your-demo-staff-number",
+  "agent_capabilities": [
+    "answer_public_service_questions",
+    "collect_appointment_request",
+    "send_human_handoff_alert",
+    "summarize_conversation",
+    "book_demo_calendar_slot"
+  ],
+  "agent_restrictions": [
+    "no_diagnosis",
+    "no_prescriptions",
+    "no_treatment_guarantees",
+    "no_emergency_triage_beyond_safe_escalation",
+    "no_claiming_official_partnership"
+  ],
+  "escalation_keywords": [
+    "severe pain",
+    "bleeding",
+    "allergic reaction",
+    "breathing problem",
+    "infection",
+    "fever",
+    "swelling",
+    "emergency",
+    "urgent",
+    "doctor",
+    "human"
+  ]
+}
+

@@ -1,0 +1,12 @@
+# Private secrets. Never commit this.
+.env
+
+# Local generated data: chats, sessions, and leads.
+data/
+
+# Python cache files generated automatically.
+__pycache__/
+*.py[cod]
+
+# Test cache generated automatically.
+.pytest_cache/

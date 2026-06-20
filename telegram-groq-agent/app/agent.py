@@ -223,15 +223,35 @@ class ReceptionistAgent:
 
         We send Groq:
         - the rules
-        - the clinic knowledge
+        - only the knowledge sections relevant to this message
         - current collected appointment details
         - recent chat history
         - latest user message
         """
         history = self.storage.get_messages(chat_id, limit=8)
+
+        # reply() stores the latest user message before analysis. Remove that
+        # final copy from history because it is sent separately below.
+        if (
+            history
+            and history[-1].get("role") == "user"
+            and history[-1].get("content") == user_text
+        ):
+            history = history[:-1]
+
+        # SectionRetriever is callable and returns only relevant sections.
+        # Plain strings (used in tests) are passed through unchanged.
+        if callable(self.business_knowledge):
+            knowledge_text = self.business_knowledge(
+                user_text,
+                session_status=session.get("status", ""),
+            )
+        else:
+            knowledge_text = self.business_knowledge
+
         messages = [
             {"role": "system", "content": ANALYZER_SYSTEM},
-            {"role": "system", "content": f"<untrusted_business_knowledge>\n{self.business_knowledge}\n</untrusted_business_knowledge>"},
+            {"role": "system", "content": f"<untrusted_business_knowledge>\n{knowledge_text}\n</untrusted_business_knowledge>"},
             {"role": "system", "content": f"<untrusted_profile>\n{json.dumps(session['profile'], ensure_ascii=False)}\n</untrusted_profile>"},
             {"role": "system", "content": f"<untrusted_history>\n{json.dumps(history, ensure_ascii=False)}\n</untrusted_history>"},
             {"role": "user", "content": user_text},

@@ -1,43 +1,93 @@
 {
-  "tenant_id": "demo_royce_aesthetics_phase7",
-  "clinic_name": "Royce Aesthetics",
-  "demo_name": "Royce Aesthetics Demo Receptionist",
+  "_note": "knowledge_files and flow_files below are human documentation only. The application reads from KNOWLEDGE_FILES in telegram-groq-agent/app/knowledge.py. Update that list if you add or rename files.",
+  "tenant_id": "royce_aesthetics_phase7_rawalpindi",
+  "business_name": "Royal Aesthetic Clinic",
+  "brand_name": "Royce Aesthetics",
+  "tagline": "Personalized skin, hair, and aesthetic care — 14+ years of expertise",
   "source_website": "https://royceaesthetics.com/",
-  "location_summary": "Bahria Town Phase 7, Rawalpindi",
-  "phone_public": "0335-6377775",
-  "hours_public": "7 days a week, 12 PM - 5 PM",
-  "timezone": "Asia/Karachi",
+  "location": {
+    "address": "Expressway, Sector F, above The Coffee Bean and Tea Leaf, Bahria Town Phase 7, Rawalpindi",
+    "area": "Bahria Town Phase 7",
+    "city": "Rawalpindi",
+    "nearby": "Accessible from Rawalpindi and Islamabad"
+  },
+  "contact": {
+    "phone": "0335-6377775",
+    "whatsapp": "0335-6377775",
+    "website": "royceaesthetics.com"
+  },
+  "hours": {
+    "days": "Monday to Sunday (7 days)",
+    "open": "12:00 PM",
+    "close": "05:00 PM",
+    "timezone": "Asia/Karachi"
+  },
+  "credentials": {
+    "experience_years": 14,
+    "patients_served": 16200,
+    "specialist": "Certified Dermatologist",
+    "specializations": ["Medical Dermatology", "Hair Restoration", "Aesthetic Injectables", "Laser Treatments", "Skin Rejuvenation"]
+  },
   "supported_languages": ["English", "Roman Urdu", "Urdu"],
   "default_language": "Roman Urdu",
-  "appointment_mode": "demo_calendar_only",
+  "agent_persona": {
+    "name": "Royce Assistant",
+    "role": "AI Receptionist & Appointment Intake",
+    "tone": "Warm, professional, helpful, non-clinical",
+    "greeting_en": "Hello! Welcome to Royal Aesthetic Clinic. I'm your virtual assistant — I can help you with services, pricing, and booking appointments. How can I help you today? 😊",
+    "greeting_ur": "Assalamu Alaikum! Royal Aesthetic Clinic mein khush aamdeed. Main aapki khidmat mein haazir hoon — services, prices, ya appointment ke liye pooch saktay hain. Kya madad kar sakta hoon? 😊"
+  },
+  "appointment_mode": "request_only",
   "booking_slot_minutes": 30,
-  "human_handoff_destination": "your-demo-staff-number",
+  "time_windows": [
+    {"label": "Early Afternoon", "from": "12:00", "to": "14:00"},
+    {"label": "Mid Afternoon", "from": "14:00", "to": "16:00"},
+    {"label": "Late Afternoon", "from": "16:00", "to": "17:00"}
+  ],
+  "human_handoff_destination": "CLINIC_STAFF_NUMBER",
   "agent_capabilities": [
-    "answer_public_service_questions",
+    "answer_service_questions",
+    "answer_faq",
+    "provide_estimated_pricing",
     "collect_appointment_request",
+    "detect_language_and_respond",
+    "detect_emergency_and_escalate",
     "send_human_handoff_alert",
-    "summarize_conversation",
-    "book_demo_calendar_slot"
+    "summarize_conversation_for_staff",
+    "handle_returning_patients"
   ],
   "agent_restrictions": [
     "no_diagnosis",
     "no_prescriptions",
+    "no_treatment_recommendations",
     "no_treatment_guarantees",
-    "no_emergency_triage_beyond_safe_escalation",
-    "no_claiming_official_partnership"
+    "no_result_promises",
+    "no_image_or_lab_interpretation",
+    "no_emergency_triage",
+    "no_claiming_official_partnership_in_demo"
   ],
   "escalation_keywords": [
-    "severe pain",
-    "bleeding",
-    "allergic reaction",
-    "breathing problem",
-    "infection",
-    "fever",
-    "swelling",
-    "emergency",
-    "urgent",
-    "doctor",
-    "human"
-  ]
+    "severe pain", "bleeding", "allergic reaction", "allergic", "anaphylaxis",
+    "breathing problem", "can't breathe", "throat tightening",
+    "infection", "spreading rash", "rapidly spreading",
+    "fever", "high fever",
+    "severe swelling", "face swelling",
+    "unconscious", "fainted",
+    "emergency", "urgent help",
+    "speak to doctor", "talk to doctor", "human please", "real person",
+    "pregnant", "pregnancy", "diabetes", "blood thinners"
+  ],
+  "knowledge_files": [
+    "knowledge/clinic_profile.md",
+    "knowledge/services.md",
+    "knowledge/prices.md",
+    "knowledge/safety_rules.md",
+    "knowledge/faq.md"
+  ],
+  "flow_files": [
+    "flows/booking_flow.md",
+    "flows/handoff_flow.md",
+    "flows/greeting_flow.md"
+  ],
+  "customization_note": "This config is designed to be reusable. To deploy for a different business, replace all values in this file, update knowledge/*.md files, and reload the agent. No code changes needed."
 }
-

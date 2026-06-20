@@ -47,7 +47,7 @@ class ServiceCatalogTest(unittest.TestCase):
     def test_full_body_laser_maps_to_laser_hair_removal(self):
         result = self.catalog.evaluate("What's the price of full body laser per session?")
         self.assertIn("laser hair removal", result["reply"].lower())
-        self.assertIn("pkr 5,000", result["reply"].lower())
+        self.assertIn("pkr 20,000", result["reply"].lower())
 
     def test_mole_removal_has_demo_price(self):
         result = self.catalog.evaluate("Can you remove a mole and how much does it cost?")

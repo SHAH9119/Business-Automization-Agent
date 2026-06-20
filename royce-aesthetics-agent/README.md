@@ -1,43 +1,130 @@
-# Royce Aesthetics Demo Agent
+# Royce Aesthetics — WhatsApp Agent Documentation
 
-This is a private prototype knowledge pack for an AI receptionist demo based on public information from Royce Aesthetics in Bahria Town Phase 7, Rawalpindi.
+## Project Overview
 
-Do not deploy this publicly as an official Royce Aesthetics assistant unless the clinic gives permission. For outreach, present it as a private demo made from publicly visible website information.
+This is the complete knowledge pack and agent configuration for the **Royal Aesthetic Clinic (Royce Aesthetics)** WhatsApp AI receptionist agent. Built to demonstrate a reusable, customizable AI agent pipeline for aesthetic clinics — pitchable to the clinic as a turnkey product.
 
-## Why This Clinic Is A Good Reference
+---
 
-Royce Aesthetics is a strong first demo target because it appears to have:
+## About the Business
 
-- A Phase 7 location.
-- A public website with appointment/contact forms.
-- High customer volume claims: 16,200+ happy patients.
-- Many skin, hair, and aesthetic services.
-- Many repetitive pre-booking questions from patients.
-- High-value appointment categories such as acne, pigmentation, hair loss, laser, and aesthetic procedures.
+| Detail | Value |
+|---|---|
+| **Clinic** | Royal Aesthetic Clinic / Royce Aesthetics |
+| **Location** | Bahria Town Phase 7, Rawalpindi |
+| **Phone** | 0335-6377775 |
+| **Hours** | 7 days a week, 12 PM – 5 PM |
+| **Experience** | 14+ years dermatology |
+| **Patients** | 16,200+ served |
+| **Website** | royceaesthetics.com |
 
-This type of business benefits from an agent because patients often ask questions before booking instead of simply filling a form.
+---
 
-## MVP Channels
+## Why This Agent Exists
 
-Build in this order:
+Aesthetic clinics like Royce Aesthetics receive dozens of repetitive WhatsApp messages every day:
+- "Do you do laser hair removal?"
+- "Hydrafacial ki price kya hai?"
+- "Appointment book karni hai"
+- "Kahan located ho?"
 
-1. Website chat demo.
-2. WhatsApp/SMS appointment intake.
-3. Human handoff alert.
-4. Voice demo using Vapi.
-5. Client dashboard later.
+A human receptionist handles these manually. This agent automates 80% of those interactions — answering instantly, collecting appointment details, and passing complex cases to human staff.
 
-## Files
+---
 
-- `config/agent_config.json` - structured clinic and agent settings.
-- `knowledge/clinic_profile.md` - clinic overview and public details.
-- `knowledge/services.md` - services and conditions.
-- `knowledge/safety_rules.md` - medical and escalation limits.
-- `flows/booking_flow.md` - appointment intake workflow.
-- `flows/handoff_flow.md` - escalation workflow.
-- `examples/sample_conversations.md` - demo conversations.
+## Project Structure
 
-## Suggested Demo Disclaimer
+```
+royce-aesthetics-agent/
+├── README.md                         ← This file
+├── config/
+│   ├── agent_config.json             ← Core clinic settings & agent settings
+│   └── service_catalog.json          ← All services with aliases & prices (structured)
+├── knowledge/
+│   ├── clinic_profile.md             ← Full clinic overview, location, team, philosophy
+│   ├── services.md                   ← Detailed service descriptions (human-readable)
+│   ├── prices.md                     ← Complete pricing guide for all services
+│   ├── safety_rules.md               ← What the agent can/cannot do + boundaries
+│   └── faq.md                        ← 40+ FAQ questions with exact agent responses
+├── flows/
+│   ├── greeting_flow.md              ← Greeting and intent detection
+│   ├── booking_flow.md               ← Appointment intake workflow
+│   └── handoff_flow.md               ← Human escalation workflow
+└── examples/
+    └── sample_conversations.md       ← 10 realistic demo conversations
+```
 
-"This is a private AI receptionist demo built from publicly available website information. It is not officially connected to Royce Aesthetics, does not make medical decisions, and uses a demo calendar."
+---
 
+## Agent Capabilities
+
+| Capability | Status |
+|---|---|
+| Answer service questions | ✅ |
+| Answer FAQ instantly | ✅ |
+| Give estimated pricing | ✅ |
+| Collect appointment requests | ✅ |
+| Respond in English / Urdu / Roman Urdu | ✅ |
+| Detect and escalate emergencies | ✅ |
+| Forward to human staff | ✅ |
+| Summarize conversation for staff | ✅ |
+| Handle returning patients | ✅ |
+
+---
+
+## Services Covered
+
+- **Skin:** HydraFacial, Chemical Peels, Microneedling, Carbon Laser Peel, HIFU, Thread Lift, Glutathione, Skin Boosters, Mole/Wart/Cyst Removal
+- **Hair:** FUE/DHI Transplant, Beard Transplant, Eyebrow Transplant, Hair PRP, Hair Fillers, Hair Threads, Scalp Micropigmentation
+- **Laser:** Laser Hair Removal (all body areas), Laser Pigmentation, Laser Resurfacing
+- **Injectables:** Botox (all areas), Lip Fillers, Cheek Fillers, Jawline, Tear Trough, Non-Surgical Rhinoplasty
+- **Medical Dermatology:** Acne, Rosacea, Melasma, Eczema, Psoriasis, Urticaria, Infections, Vitiligo, and 20+ conditions
+- **Packages:** Smooth Face, Beautiful Lips, Chic Look, Healthy Skin, Soft Skin, No Mole
+
+---
+
+## How to Customize for Another Business
+
+This pipeline is designed to be **business-agnostic**. To deploy for a different clinic or business:
+
+1. **Update `config/agent_config.json`** — Replace clinic name, location, phone, hours, credentials
+2. **Rewrite `knowledge/clinic_profile.md`** — New clinic's profile, team, facilities
+3. **Rewrite `knowledge/services.md`** — New service descriptions
+4. **Rewrite `knowledge/prices.md`** — New pricing guide
+5. **Update `config/service_catalog.json`** — New services with aliases and prices
+6. **Update `knowledge/faq.md`** — New FAQ answers
+7. **Update `examples/sample_conversations.md`** — New sample conversations
+8. No code changes required — only documentation/config files.
+
+This works for: hospitals, dental clinics, physiotherapy, spas, beauty salons, doctors' offices, and more.
+
+---
+
+## Agent Boundaries (Non-Negotiable)
+
+- ❌ No diagnosis
+- ❌ No prescriptions or medication recommendations
+- ❌ No treatment guarantees or result promises
+- ❌ No emergency medical triage
+- ✅ Always refer complex questions to the dermatologist
+- ✅ Always give prices as "estimated" or "starting from"
+
+---
+
+## Demo Disclaimer
+
+> *"This is an AI receptionist demo built from publicly available information. It does not make medical decisions, does not officially represent the clinic, and all prices are estimates. Actual prices and treatment plans are confirmed by the clinic's dermatologist."*
+
+---
+
+## Pitch Summary (For Client Presentation)
+
+> Royal Aesthetic Clinic currently handles all patient queries manually via WhatsApp. This AI receptionist agent can:
+> - Respond **instantly, 24/7** — even when staff are busy or offline
+> - Answer the **most common 80% of questions** automatically
+> - **Collect appointment details** and forward to staff
+> - Handle **Urdu, Roman Urdu, and English** — just like your patients speak
+> - **Escalate urgent cases** to human staff immediately
+> - Save your receptionist hours of repetitive messaging daily
+>
+> This is a **plug-and-play product** — your knowledge, your branding, your patients.

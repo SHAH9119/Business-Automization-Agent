@@ -25,7 +25,7 @@ from app.config import (
 )
 from app.gemini_client import GeminiClient
 from app.groq_client import GroqClient
-from app.knowledge import load_business_knowledge, load_service_catalog
+from app.knowledge import load_section_retriever, load_service_catalog
 from app.llm_client import FallbackLLMClient
 from app.message_guard import MessageGuard
 from app.storage import JsonStorage
@@ -134,15 +134,26 @@ class TelegramBot:
 
         if command == "/start":
             return (
-                "Hello! This is a demo AI receptionist for Royce Aesthetics.\n\n"
-                "I can help with general service information and appointment requests. "
-                "How may I help you today?"
+                "Hello! 👋 Welcome to Royal Aesthetic Clinic (Royce Aesthetics) \u2014 Bahria Town Phase 7, Rawalpindi.\n\n"
+                "I'm your virtual assistant. I can help with:\n"
+                "\u2022 💆 Skin treatments & procedures\n"
+                "\u2022 💇 Hair restoration & transplants\n"
+                "\u2022 💉 Botox, fillers & aesthetic treatments\n"
+                "\u2022 📅 Booking an appointment\n"
+                "\u2022 💰 Estimated pricing\n\n"
+                "How can I assist you today?"
             )
 
         if command == "/help":
             return (
-                "I can help with clinic services, timings, location, and appointment requests. "
-                "Please type your question or tell me which service you are interested in."
+                "You can ask me about:\n"
+                "\u2022 Skin treatments (acne, pigmentation, HydraFacial, peels, laser)\n"
+                "\u2022 Hair services (transplant, PRP, laser hair removal)\n"
+                "\u2022 Aesthetic injectables (Botox, fillers)\n"
+                "\u2022 Prices and packages\n"
+                "\u2022 Clinic location & timing\n"
+                "\u2022 Booking an appointment\n\n"
+                "Type your question or concern and I'll help right away."
             )
 
         if command == "/reset":
@@ -177,8 +188,9 @@ class TelegramBot:
 
 async def main() -> None:
     """Create all app parts and start the bot."""
-    # Load clinic knowledge from markdown files.
-    knowledge = load_business_knowledge(BUSINESS_PACK_DIR)
+    # Load clinic knowledge as a section retriever.
+    # Each message triggers only the 1-2 relevant files instead of all files.
+    knowledge = load_section_retriever(BUSINESS_PACK_DIR)
 
     # Load structured services and demo prices for reliable factual answers.
     service_catalog = load_service_catalog(BUSINESS_PACK_DIR)

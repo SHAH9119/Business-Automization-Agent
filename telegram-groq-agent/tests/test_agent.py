@@ -23,17 +23,49 @@ class FakeGroq:
 
     def __init__(self, responses):
         self.responses = list(responses)
+        self.received_messages = []
 
     async def chat_json(self, messages):
         # Pretend Groq returned a JSON response.
+        self.received_messages.append(messages)
         return json.dumps(self.responses.pop(0))
 
     async def chat(self, messages):
         # Backup method if the agent falls back to normal chat.
+        self.received_messages.append(messages)
         return json.dumps(self.responses.pop(0))
 
 
 class ReceptionistAgentTest(unittest.TestCase):
+    def test_current_user_message_is_not_duplicated_in_history(self):
+        """The latest message should appear once in the request sent to the LLM."""
+        responses = [
+            {
+                "intent": "faq",
+                "reply": "The clinic is open from 12 PM to 5 PM.",
+                "extracted": {},
+                "handoff_required": False,
+                "handoff_reason": None,
+            }
+        ]
+        fake_groq = FakeGroq(responses)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            agent = ReceptionistAgent(
+                groq=fake_groq,
+                storage=JsonStorage(Path(tmp)),
+                business_knowledge="Clinic information",
+            )
+
+            asyncio.run(agent.reply("123", "What are your clinic hours?"))
+
+        sent = fake_groq.received_messages[0]
+        history_message = next(
+            message for message in sent if "<untrusted_history>" in message["content"]
+        )
+        self.assertNotIn("What are your clinic hours?", history_message["content"])
+        self.assertEqual(sent[-1]["content"], "What are your clinic hours?")
+
     def test_collects_and_saves_appointment_request(self):
         """User gives appointment details step by step, then one lead is saved."""
 

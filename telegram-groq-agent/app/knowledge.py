@@ -35,6 +35,7 @@ TOPIC_FILES = {
     # rules remain in ANALYZER_SYSTEM for every request.
     "handoff": ["knowledge/safety_rules.md", "flows/handoff_flow.md"],
     "faq":     ["knowledge/faq.md"],
+    "visit":   ["knowledge/patient_guide.md", "knowledge/out_of_scope.md"],
 }
 
 # All files in one flat list (used by load_business_knowledge).
@@ -43,6 +44,7 @@ KNOWLEDGE_FILES = (
     + TOPIC_FILES["price"]
     + TOPIC_FILES["service"]
     + TOPIC_FILES["faq"]
+    + TOPIC_FILES["visit"]
     + ["flows/greeting_flow.md"]
     + TOPIC_FILES["booking"]
     + TOPIC_FILES["handoff"]
@@ -117,6 +119,15 @@ _FAQ_RE = _compile_triggers(
     "clinic timings kya hain", "appointment cancel", "appointment reschedule",
 )
 
+_VISIT_RE = _compile_triggers(
+    # Location & directions
+    "where", "address", "location", "directions", "phase 7", "kahan", "kahaan",
+    "parking", "landmark", "coffee bean", "islamabad se", "rawalpindi se",
+    # First visit & payment
+    "first visit", "what to bring", "cnic", "payment", "card", "easypaisa",
+    "jazzcash", "installment", "cash", "pehli dafa", "kya le kar",
+)
+
 
 # ---------------------------------------------------------------------------
 # Section retriever – sends only what is relevant for each message.
@@ -160,6 +171,7 @@ class SectionRetriever:
         wants_service = bool(_SERVICE_RE.search(user_text))
         wants_handoff = bool(_HANDOFF_RE.search(user_text))
         wants_faq = bool(_FAQ_RE.search(user_text))
+        wants_visit = bool(_VISIT_RE.search(user_text))
 
         # Urgent/human requests take priority. Loading treatment or pricing text
         # during an emergency adds cost and can distract from safe escalation.
@@ -168,6 +180,8 @@ class SectionRetriever:
 
         if wants_price:
             parts.append(self._by_topic["price"])
+        if wants_visit:
+            parts.append(self._by_topic["visit"])
         if wants_faq:
             parts.append(self._by_topic["faq"])
         # FAQ policy questions take priority over generic words such as

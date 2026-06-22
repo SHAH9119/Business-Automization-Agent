@@ -10,25 +10,9 @@ import logging
 
 import httpx
 
-from app.agent import ReceptionistAgent
-from app.config import (
-    BUSINESS_PACK_DIR,
-    DATA_DIR,
-    GEMINI_API_KEY,
-    GEMINI_MODEL,
-    GROQ_API_KEYS,
-    GROQ_MIN_REMAINING_REQUESTS,
-    GROQ_MIN_REMAINING_TOKENS,
-    GROQ_MODEL,
-    STAFF_ALERT_CHAT_ID,
-    TELEGRAM_BOT_TOKEN,
-)
-from app.gemini_client import GeminiClient
-from app.groq_client import GroqClient
-from app.knowledge import load_section_retriever, load_service_catalog
-from app.llm_client import FallbackLLMClient
+from app.bootstrap import create_email_notifier, create_receptionist_agent, create_webhook_notifier, load_business_config
+from app.config import STAFF_ALERT_CHAT_ID, TELEGRAM_BOT_TOKEN
 from app.message_guard import MessageGuard
-from app.storage import JsonStorage
 
 
 # Basic logging so we can see when the bot receives messages or errors.
@@ -42,12 +26,19 @@ logging.getLogger("httpcore").setLevel(logging.WARNING)
 
 
 class TelegramBot:
-    def __init__(self, token: str, agent: ReceptionistAgent, message_guard: MessageGuard | None = None):
+    def __init__(
+        self,
+        token: str,
+        agent,
+        business_config,
+        message_guard: MessageGuard | None = None,
+    ):
         # The Telegram bot token is required to call Telegram's Bot API.
         if not token:
             raise ValueError("Missing TELEGRAM_BOT_TOKEN")
         self.token = token
         self.agent = agent
+        self.business_config = business_config
 
         # The guard stops spam and obvious attacks before they consume AI quota.
         self.message_guard = message_guard or MessageGuard()
@@ -60,7 +51,7 @@ class TelegramBot:
 
     async def run_polling(self) -> None:
         """Keep asking Telegram for new messages forever."""
-        logger.info("Telegram bot polling started")
+        logger.info("Telegram bot polling started for %s", self.business_config.business_name)
         async with httpx.AsyncClient(timeout=40) as client:
             # Make sure polling works even if a webhook was set before.
             await self._delete_webhook(client)
@@ -133,28 +124,10 @@ class TelegramBot:
         command = text.split()[0].lower().split("@")[0]
 
         if command == "/start":
-            return (
-                "Hello! 👋 Welcome to Royal Aesthetic Clinic (Royce Aesthetics) \u2014 Bahria Town Phase 7, Rawalpindi.\n\n"
-                "I'm your virtual assistant. I can help with:\n"
-                "\u2022 💆 Skin treatments & procedures\n"
-                "\u2022 💇 Hair restoration & transplants\n"
-                "\u2022 💉 Botox, fillers & aesthetic treatments\n"
-                "\u2022 📅 Booking an appointment\n"
-                "\u2022 💰 Estimated pricing\n\n"
-                "How can I assist you today?"
-            )
+            return self.business_config.greeting_en
 
         if command == "/help":
-            return (
-                "You can ask me about:\n"
-                "\u2022 Skin treatments (acne, pigmentation, HydraFacial, peels, laser)\n"
-                "\u2022 Hair services (transplant, PRP, laser hair removal)\n"
-                "\u2022 Aesthetic injectables (Botox, fillers)\n"
-                "\u2022 Prices and packages\n"
-                "\u2022 Clinic location & timing\n"
-                "\u2022 Booking an appointment\n\n"
-                "Type your question or concern and I'll help right away."
-            )
+            return self.business_config.help_en
 
         if command == "/reset":
             self.agent.reset(chat_id)
@@ -188,38 +161,19 @@ class TelegramBot:
 
 async def main() -> None:
     """Create all app parts and start the bot."""
-    # Load clinic knowledge as a section retriever.
-    # Each message triggers only the 1-2 relevant files instead of all files.
-    knowledge = load_section_retriever(BUSINESS_PACK_DIR)
-
-    # Load structured services and demo prices for reliable factual answers.
-    service_catalog = load_service_catalog(BUSINESS_PACK_DIR)
-
-    # Create local JSON storage.
-    storage = JsonStorage(DATA_DIR)
-
-    # Create Groq primary provider with controlled key failover.
-    groq = GroqClient(
-        api_keys=GROQ_API_KEYS,
-        model=GROQ_MODEL,
-        min_remaining_requests=GROQ_MIN_REMAINING_REQUESTS,
-        min_remaining_tokens=GROQ_MIN_REMAINING_TOKENS,
+    business_config = load_business_config()
+    agent = create_receptionist_agent(
+        business_config=business_config,
+        webhook_notifier=create_webhook_notifier(),
+        email_notifier=create_email_notifier(),
     )
+    agent.channel = "telegram"
 
-    # Create Gemini as a separate-provider fallback when configured.
-    gemini = GeminiClient(api_key=GEMINI_API_KEY, model=GEMINI_MODEL) if GEMINI_API_KEY else None
-    llm = FallbackLLMClient(groq=groq, gemini=gemini)
-
-    # Create receptionist agent.
-    agent = ReceptionistAgent(
-        groq=llm,
-        storage=storage,
-        business_knowledge=knowledge,
-        service_catalog=service_catalog,
+    bot = TelegramBot(
+        token=TELEGRAM_BOT_TOKEN,
+        agent=agent,
+        business_config=business_config,
     )
-
-    # Create Telegram adapter and start listening.
-    bot = TelegramBot(token=TELEGRAM_BOT_TOKEN, agent=agent)
     await bot.run_polling()
 
 

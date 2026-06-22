@@ -1,117 +1,139 @@
-# Telegram + Groq Clinic Agent
+# Business Agent — Telegram & WhatsApp Clinic Bot
 
-Low-cost first MVP for testing the WhatsApp/SMS agent flow.
+Multi-channel AI receptionist for aesthetic clinics and other businesses. Same agent core, swappable business pack.
 
-This version uses Telegram as the test channel, Groq as the primary LLM, and Gemini as an optional fallback. Later, the `telegram_bot.py` adapter can be replaced with a WhatsApp Cloud API adapter while keeping the same agent logic.
+## Channels
+
+| Channel | Status | Run command |
+|---|---|---|
+| **Telegram** | ✅ Polling (free demo) | `.\scripts\run_bot.ps1` |
+| **WhatsApp** | ✅ Cloud API webhook | `.\scripts\run_whatsapp.ps1` |
+| SMS / Voice | Planned | Same `ReceptionistAgent` |
 
 ## What It Does
 
-- Reads the Royce Aesthetics demo knowledge pack.
-- Replies as a clinic receptionist.
-- Collects appointment request details.
-- Tracks name, phone, concern, preferred day, and preferred time.
-- Saves conversations, sessions, and leads locally under `data/`.
-- Sends a staff-style summary when enough details are collected.
-- Supports `/start`, `/help`, `/status`, `/reset`, and `/id`.
-- Supports hidden `/limits` for provider/key status and Groq quota headers.
-- Proactively rests a Groq key near its request/token limit and uses the next ready key.
-- Blocks message floods, repeated spam, oversized input, obvious gibberish, and common prompt-injection attempts before calling the AI.
-- Avoids diagnosis, prescriptions, and treatment guarantees.
+- Loads tenant settings from `agent_config.json` (greetings, hours, phone, escalation keywords)
+- Reads business knowledge from a swappable pack (`BUSINESS_PACK_DIR`)
+- Replies as a clinic receptionist in **English** or **Roman Urdu**
+- Collects appointment requests and saves leads locally
+- Sends staff alerts via **Telegram** and/or **WhatsApp**
+- POSTs lead events to **n8n** for email, Google Calendar, Sheets automation
+- Groq multi-key rotation + optional Gemini fallback
+- Spam/injection protection before LLM calls
 
-## What You Need
-
-- Telegram bot token from BotFather.
-- One or more Groq API keys.
-- Optional Gemini API key for separate-provider fallback.
-
-## Setup
-
-Fast setup:
+## Quick Start — Telegram
 
 ```powershell
 .\scripts\setup_env.ps1
+# Edit .env with TELEGRAM_BOT_TOKEN and GROQ_API_KEY
 .\scripts\run_bot.ps1
 ```
 
-Manual setup:
+## Quick Start — WhatsApp
 
-1. Copy `.env.example` to `.env`.
-2. Fill in:
+1. Get Meta WhatsApp Cloud API credentials (see `docs/whatsapp-setup.md`)
+2. Add to `.env`:
 
 ```env
-TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-GROQ_API_KEY=your_groq_api_key
-GROQ_API_KEYS=key_one,key_two
-GROQ_MIN_REMAINING_REQUESTS=3
-GROQ_MIN_REMAINING_TOKENS=1500
-GROQ_MODEL=llama-3.1-8b-instant
-GEMINI_API_KEY=your_gemini_api_key
-GEMINI_MODEL=gemini-3.5-flash
-BUSINESS_PACK_DIR=../royce-aesthetics-agent
-DATA_DIR=./data
-STAFF_ALERT_CHAT_ID=
+WHATSAPP_ACCESS_TOKEN=your_token
+WHATSAPP_PHONE_NUMBER_ID=your_phone_number_id
+WHATSAPP_VERIFY_TOKEN=business-agent-verify
 ```
 
-3. Install dependencies:
+3. Run webhook server and expose with ngrok:
 
 ```powershell
 pip install -r requirements.txt
+.\scripts\run_whatsapp.ps1
+# In another terminal: ngrok http 8000
 ```
 
-4. Run the bot:
+4. Register `https://your-ngrok-url/webhook` in Meta Developer Console
+
+Full guide: **[docs/whatsapp-setup.md](docs/whatsapp-setup.md)**
+
+### Local testing (no Meta account)
 
 ```powershell
-python -m app.telegram_bot
+# Terminal 1 — simulation server (no WhatsApp API keys needed)
+.\scripts\run_whatsapp_simulation.ps1
+
+# Terminal 2 — send fake WhatsApp messages
+python scripts/simulate_whatsapp.py --mode http --message "Clinic kahan hai?"
+python scripts/simulate_whatsapp.py --mode http --scenarios
+python scripts/simulate_whatsapp.py --mode direct --booking
 ```
 
-Or:
+Set `WHATSAPP_SIMULATION_MODE=true` in `.env` or use `run_whatsapp_simulation.ps1`.
+
+## Gmail Appointment Alerts (Recommended — No n8n)
+
+Free email to your inbox when a customer books. See **[docs/gmail-setup.md](docs/gmail-setup.md)**.
+
+```env
+GMAIL_SMTP_USER=your@gmail.com
+GMAIL_APP_PASSWORD=your-google-app-password
+STAFF_EMAIL=your@gmail.com
+```
 
 ```powershell
-.\scripts\run_bot.ps1
+python scripts/test_email.py
 ```
 
-## Telegram Token
+## n8n Automation (Optional)
 
-In Telegram:
+```powershell
+docker compose up -d   # starts n8n on http://localhost:5678
+```
 
-1. Open `@BotFather`.
-2. Send `/newbot`.
-3. Choose a bot name and username.
-4. Copy the token into `.env`.
+Create a webhook workflow, then set in `.env`:
 
-## Staff Alerts
+```env
+N8N_WEBHOOK_URL=http://localhost:5678/webhook/clinic-lead
+```
 
-To receive staff alerts in Telegram:
+Full guide: **[docs/n8n-setup.md](docs/n8n-setup.md)** (includes: should you use n8n? Docker vs alternatives)
 
-1. Run the bot.
-2. Send `/id` to the bot from your own Telegram account.
-3. Copy the returned chat ID into `STAFF_ALERT_CHAT_ID` in `.env`.
-4. Restart the bot.
+Test webhook without a real booking:
 
-## How This Becomes WhatsApp Later
+```powershell
+python scripts/test_n8n_webhook.py
+```
 
-The important logic lives in `app/agent.py`.
+## Environment Variables
 
-Telegram-specific code lives in `app/telegram_bot.py`.
+See `.env.example` for all options. Key ones:
 
-Later, you can add a WhatsApp Cloud API adapter that sends incoming WhatsApp messages to the same `ReceptionistAgent.reply(...)` method.
+| Variable | Purpose |
+|---|---|
+| `BUSINESS_PACK_DIR` | Path to clinic knowledge pack |
+| `GROQ_API_KEYS` | Comma-separated Groq keys for rotation |
+| `N8N_WEBHOOK_URL` | Optional n8n webhook (Calendar/Sheets — skip if using Gmail only) |
+| `GMAIL_SMTP_USER` | Gmail account that sends appointment emails |
+| `GMAIL_APP_PASSWORD` | Google App Password (16 chars) |
+| `STAFF_EMAIL` | Inbox that receives appointment alerts |
+| `WHATSAPP_ACCESS_TOKEN` | Meta WhatsApp API token |
+| `WHATSAPP_PHONE_NUMBER_ID` | Meta phone number ID |
+| `STAFF_ALERT_CHAT_ID` | Telegram chat for staff alerts |
+| `WHATSAPP_STAFF_PHONE` | Staff WhatsApp for lead alerts |
+
+## Architecture
 
 ```text
-Telegram now:
-Telegram -> telegram_bot.py -> ReceptionistAgent -> Groq/Gemini -> Telegram
-
-WhatsApp later:
-Meta WhatsApp -> whatsapp_webhook.py -> ReceptionistAgent -> Groq/Gemini -> Meta WhatsApp
+Telegram ──→ telegram_bot.py ──┐
+                                ├──→ ReceptionistAgent ──→ Groq/Gemini
+WhatsApp ──→ whatsapp_webhook.py ┘           │
+                                              ├──→ Local JSON leads
+                                              ├──→ Staff alert (TG/WA)
+                                              └──→ n8n webhook → Email/Calendar/Sheet
 ```
 
-## Security
+## Customize for Another Business
 
-- Never commit `.env`.
-- Rotate keys if they were shared publicly.
-- Keep one client/business per config at first.
-- Do not use this as a medical advice bot.
-- Do not claim this is an official clinic assistant without permission.
-- Add client separation before serving multiple real businesses.
+1. Copy `../royce-aesthetics-agent/` to a new folder
+2. Edit `config/agent_config.json` and `knowledge/*.md`
+3. Set `BUSINESS_PACK_DIR` in `.env`
+4. No code changes required
 
 ## Tests
 
@@ -119,6 +141,17 @@ Meta WhatsApp -> whatsapp_webhook.py -> ReceptionistAgent -> Groq/Gemini -> Meta
 .\scripts\test.ps1
 ```
 
-## Notes
+## Security
 
-This is a private demo. Do not present it as an official Royce Aesthetics assistant unless the clinic authorizes it.
+- Never commit `.env`
+- Use HTTPS for WhatsApp webhooks in production
+- Do not present as official clinic assistant without permission
+- Agent does not diagnose or prescribe
+
+## Docs
+
+- [WhatsApp setup](docs/whatsapp-setup.md)
+- [n8n automation](docs/n8n-setup.md)
+- [Deployment & cloud guide](docs/deployment.md)
+- [Gmail alerts setup](docs/gmail-setup.md)
+- [Royce Aesthetics knowledge pack](../royce-aesthetics-agent/README.md)

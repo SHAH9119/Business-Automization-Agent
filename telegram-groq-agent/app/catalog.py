@@ -65,28 +65,30 @@ class ServiceCatalog:
                 "handoff_reason": None,
             }
 
-        unlisted = self._find(text, self.unlisted)
-        if unlisted:
-            if roman_urdu:
-                reply = (
-                    f"{unlisted['name']} clinic ki current service list mein nahi hai, is liye main guess nahi karunga. "
-                    "Main staff se confirmation karwa sakta hoon."
-                )
-            else:
-                reply = (
-                    f"{unlisted['name']} is not listed on the clinic's current service list, so I do not want to guess. "
-                    "I can forward the question to staff for confirmation."
-                )
-            return {
-                "reply": reply,
-                "concern": unlisted["name"],
-                "handoff_required": True,
-                "handoff_reason": f"{unlisted['name']} is not publicly listed",
-            }
-
         public = self._find(text, self.public)
         demo = self._find(text, self.demo)
+
+        # Check unlisted only when no public/demo match — avoids "non surgical
+        # rhinoplasty" being blocked by the shorter "surgical rhinoplasty" alias.
         if not public and not demo:
+            unlisted = self._find(text, self.unlisted)
+            if unlisted:
+                if roman_urdu:
+                    reply = (
+                        f"{unlisted['name']} clinic ki current service list mein nahi hai, is liye main guess nahi karunga. "
+                        "Main staff se confirmation karwa sakta hoon."
+                    )
+                else:
+                    reply = (
+                        f"{unlisted['name']} is not listed on the clinic's current service list, so I do not want to guess. "
+                        "I can forward the question to staff for confirmation."
+                    )
+                return {
+                    "reply": reply,
+                    "concern": unlisted["name"],
+                    "handoff_required": True,
+                    "handoff_reason": f"{unlisted['name']} is not publicly listed",
+                }
             return None
 
         offering = public or demo

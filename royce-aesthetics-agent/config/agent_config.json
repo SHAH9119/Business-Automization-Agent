@@ -1,5 +1,5 @@
 {
-  "_note": "knowledge_files and flow_files below are human documentation only. The application reads from KNOWLEDGE_FILES in telegram-groq-agent/app/knowledge.py. Update that list if you add or rename files.",
+  "_note": "This file is loaded at runtime by telegram-groq-agent/app/business_config.py. Greetings, hours, phone, and escalation keywords drive bot behavior.",
   "tenant_id": "royce_aesthetics_phase7_rawalpindi",
   "business_name": "Royal Aesthetic Clinic",
   "brand_name": "Royce Aesthetics",
@@ -82,7 +82,9 @@
     "knowledge/services.md",
     "knowledge/prices.md",
     "knowledge/safety_rules.md",
-    "knowledge/faq.md"
+    "knowledge/faq.md",
+    "knowledge/patient_guide.md",
+    "knowledge/out_of_scope.md"
   ],
   "flow_files": [
     "flows/booking_flow.md",

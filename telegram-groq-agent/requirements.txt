@@ -1,5 +1,9 @@
-# Sends HTTP requests to Telegram and Groq APIs.
+# Sends HTTP requests to Telegram, Groq, Meta WhatsApp, and n8n webhooks.
 httpx==0.27.2
 
 # Reads private keys and settings from .env.
 python-dotenv==1.0.1
+
+# WhatsApp webhook server.
+fastapi==0.115.6
+uvicorn==0.32.1

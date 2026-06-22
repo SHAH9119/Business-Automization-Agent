@@ -1,0 +1,50 @@
+{
+  "name": "Clinic Lead — Webhook Receiver",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "clinic-lead",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-clinic-lead",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [400, 300],
+      "webhookId": "clinic-lead"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true, \"received\": $json.event, \"name\": $json.profile.name }"
+      },
+      "id": "respond-ok",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [620, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "description": "Import this into n8n, activate it, then set N8N_WEBHOOK_URL=http://localhost:5678/webhook/clinic-lead in your .env. Extend with Gmail, Google Sheets, and Calendar nodes after the Webhook node."
+  }
+}

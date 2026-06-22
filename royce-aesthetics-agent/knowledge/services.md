@@ -142,6 +142,17 @@ A cosmetic tattooing technique that creates the appearance of a shaved head or f
 #### Low-Level Laser Therapy (LLLT)
 Laser light energy stimulates hair follicles for improved growth. Usually combined with other treatments.
 
+#### Bridal Glow Package
+Pre-event skin preparation combining HydraFacial, chemical peel, and brightening treatments. Popular 2–4 weeks before weddings.
+- **Good for:** Dull skin, uneven tone, pre-event glow
+- **Estimated from:** PKR 15,000
+
+#### Dark Circles & Under-Eye Concerns
+Assessed individually — options may include tear trough filler, peels, or skin boosters. Never recommend a specific option without consultation.
+
+#### Stretch Mark Treatment
+Microneedling, laser, or combination approaches for stretch marks on abdomen, thighs, or other areas — assessed at consultation.
+
 ---
 
 ### 2.3 Hair Removal

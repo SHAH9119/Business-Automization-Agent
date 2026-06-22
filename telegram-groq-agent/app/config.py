@@ -69,3 +69,33 @@ DATA_DIR = resolve_from_base(os.getenv("DATA_DIR", "./data"))
 
 # Optional Telegram chat ID where staff alerts are sent.
 STAFF_ALERT_CHAT_ID = os.getenv("STAFF_ALERT_CHAT_ID", "").strip()
+
+# n8n (or any) webhook URL — called when a lead is saved.
+N8N_WEBHOOK_URL = os.getenv("N8N_WEBHOOK_URL", "").strip()
+
+# Gmail SMTP alerts (free — no n8n needed). Requires a Google App Password.
+GMAIL_SMTP_USER = os.getenv("GMAIL_SMTP_USER", "").strip()
+GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "").strip()
+STAFF_EMAIL = os.getenv("STAFF_EMAIL", "").strip()
+EMAIL_FROM_NAME = os.getenv("EMAIL_FROM_NAME", "Clinic Agent").strip()
+
+# Meta WhatsApp Cloud API credentials.
+WHATSAPP_ACCESS_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN", "").strip()
+WHATSAPP_PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID", "").strip()
+WHATSAPP_VERIFY_TOKEN = os.getenv("WHATSAPP_VERIFY_TOKEN", "business-agent-verify").strip()
+WHATSAPP_API_VERSION = os.getenv("WHATSAPP_API_VERSION", "v21.0").strip()
+
+# Optional staff WhatsApp number (E.164 without +) for lead alerts via WhatsApp.
+WHATSAPP_STAFF_PHONE = os.getenv("WHATSAPP_STAFF_PHONE", "").strip()
+
+# Host/port for the WhatsApp webhook server.
+WEBHOOK_HOST = os.getenv("WEBHOOK_HOST", "0.0.0.0").strip()
+WEBHOOK_PORT = positive_int_setting("WEBHOOK_PORT", 8000)
+
+# When true, WhatsApp replies are captured locally — no Meta API credentials needed.
+WHATSAPP_SIMULATION_MODE = os.getenv("WHATSAPP_SIMULATION_MODE", "").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}

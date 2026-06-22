@@ -1,8 +1,8 @@
 {
   "business_name": "Royal Aesthetic Clinic (Royce Aesthetics)",
-  "source": "https://royceaesthetics.com/",
-  "last_updated": "2026-06-20",
-  "disclaimer": "public_offerings = services the clinic provides. demo_offerings = same services that also carry a quoted price the bot may say. not_publicly_listed = services the bot must NOT claim are available. demo_price is the single canonical price string; all other files use 'starting from' language consistent with it.",
+  "source": "Clinic knowledge pack — Bahria Town Phase 7, Rawalpindi",
+  "last_updated": "2026-06-22",
+  "disclaimer": "public_offerings = services the clinic provides. demo_offerings = services with a quoted price the bot may say. not_publicly_listed = services the bot must NOT claim are available. demo_price uses 'starting from PKR' language.",
 
   "public_offerings": [
     {"name": "Skin treatment", "aliases": ["skin treatment", "skin care", "skin problem"]},
@@ -12,6 +12,8 @@
     {"name": "Pigmentation treatment", "aliases": ["pigmentation treatment", "pigmentation", "pigmentation disorder", "uneven skin tone"]},
     {"name": "Melasma treatment", "aliases": ["melasma treatment", "melasma", "dark patches on face"]},
     {"name": "Freckles and sun damage treatment", "aliases": ["freckles treatment", "freckles", "sun damage", "sun spots"]},
+    {"name": "Dark circles treatment", "aliases": ["dark circles treatment", "dark circles", "under eye dark circles", "under eye bags"]},
+    {"name": "Stretch mark treatment", "aliases": ["stretch mark treatment", "stretch marks", "striae"]},
     {"name": "Hair and nail disorder treatment", "aliases": ["hair disorder", "nail disorder", "hair and nail", "nail problem", "nail infection", "fungal nail"]},
     {"name": "Xanthelasma removal", "aliases": ["xanthelasma removal", "xanthelasma", "yellow patches around eyes"]},
     {"name": "Viral wart treatment", "aliases": ["viral wart treatment", "viral wart", "wart removal", "warts"]},
@@ -60,6 +62,7 @@
     {"name": "Non-surgical rhinoplasty", "aliases": ["non surgical rhinoplasty", "nose filler", "nose job without surgery"]},
     {"name": "Beard transplant", "aliases": ["beard transplant", "beard restoration", "patchy beard treatment"]},
     {"name": "Eyebrow transplant", "aliases": ["eyebrow transplant", "brow transplant", "eyebrow restoration"]},
+    {"name": "Bridal glow package", "aliases": ["bridal glow", "bridal package", "bridal facial", "shaadi ke liye facial"]},
     {"name": "Smooth Face package", "aliases": ["smooth face package", "smooth face"]},
     {"name": "Beautiful Lips package", "aliases": ["beautiful lips package", "beautiful lips"]},
     {"name": "Chic Look package", "aliases": ["chic look package", "chic look"]},
@@ -70,9 +73,11 @@
 
   "demo_offerings": [
     {"name": "Dermatologist consultation", "aliases": ["consultation", "dermatologist consultation", "doctor consultation", "skin consultation"], "demo_price": "PKR 2,500"},
-    {"name": "HydraFacial", "aliases": ["hydrafacial", "hydra facial"], "demo_price": "starting from PKR 8,000"},
-    {"name": "Mole removal", "aliases": ["mole removal", "remove a mole", "no mole"], "demo_price": "starting from PKR 5,000"},
+    {"name": "HydraFacial", "aliases": ["hydrafacial", "hydra facial"], "demo_price": "starting from PKR 8,000 per session"},
+    {"name": "HydraFacial 3-session package", "aliases": ["hydrafacial package", "hydrafacial 3 session"], "demo_price": "starting from PKR 18,000"},
+    {"name": "Mole removal", "aliases": ["mole removal", "remove a mole", "no mole"], "demo_price": "starting from PKR 5,000 per mole"},
     {"name": "Upper lip laser hair removal", "aliases": ["upper lip laser"], "demo_price": "starting from PKR 2,000 per session"},
+    {"name": "Chin laser hair removal", "aliases": ["chin laser"], "demo_price": "starting from PKR 2,000 per session"},
     {"name": "Full face laser hair removal", "aliases": ["full face laser"], "demo_price": "starting from PKR 5,000 per session"},
     {"name": "Underarm laser hair removal", "aliases": ["underarm laser", "underarms laser"], "demo_price": "starting from PKR 3,000 per session"},
     {"name": "Arm laser hair removal", "aliases": ["arm laser", "arms laser"], "demo_price": "starting from PKR 4,000 per session"},
@@ -83,17 +88,45 @@
     {"name": "Laser hair removal", "aliases": ["laser hair removal"], "demo_price": "starting from PKR 2,000 per session depending on area"},
     {"name": "Full body laser hair removal", "aliases": ["full body laser", "full body laser hair removal", "laser hair removal full body"], "demo_price": "starting from PKR 20,000 per session; 6-session packages from PKR 80,000"},
     {"name": "Hair PRP", "aliases": ["hair prp", "prp", "prp for hair", "hair growth injection"], "demo_price": "starting from PKR 10,000 per session"},
+    {"name": "Hair PRP 4-session package", "aliases": ["prp package", "hair prp package"], "demo_price": "starting from PKR 28,000"},
     {"name": "Acne consultation", "aliases": ["acne consultation"], "demo_price": "PKR 2,500; treatment cost depends on assessment"},
     {"name": "Pigmentation consultation", "aliases": ["pigmentation consultation"], "demo_price": "PKR 2,500; treatment cost depends on assessment"},
     {"name": "Hair-loss consultation", "aliases": ["hair loss consultation", "hair fall consultation"], "demo_price": "PKR 2,500; treatment cost depends on assessment"},
     {"name": "Chemical peel", "aliases": ["chemical peel", "glycolic peel", "salicylic peel", "skin peel"], "demo_price": "starting from PKR 3,000 per session"},
+    {"name": "Microneedling", "aliases": ["microneedling", "dermaroller"], "demo_price": "starting from PKR 5,000 per session"},
+    {"name": "Microneedling with PRP", "aliases": ["microneedling with prp", "vampire facial", "prp facial"], "demo_price": "starting from PKR 10,000 per session"},
+    {"name": "Carbon laser peel", "aliases": ["carbon laser peel", "hollywood peel", "carbon peel"], "demo_price": "starting from PKR 6,000 per session"},
     {"name": "Hair transplant (FUE)", "aliases": ["hair transplant", "fue transplant", "fue hair transplant"], "demo_price": "starting from PKR 60,000"},
+    {"name": "DHI hair transplant", "aliases": ["dhi transplant", "dhi hair transplant"], "demo_price": "starting from PKR 80,000 per 1,000 grafts"},
+    {"name": "Beard transplant", "aliases": ["beard transplant", "beard restoration"], "demo_price": "starting from PKR 50,000"},
+    {"name": "Eyebrow transplant", "aliases": ["eyebrow transplant", "brow transplant"], "demo_price": "starting from PKR 50,000"},
+    {"name": "Scalp micropigmentation", "aliases": ["scalp micropigmentation", "smp"], "demo_price": "starting from PKR 25,000"},
     {"name": "Botox", "aliases": ["botox", "botulinum toxin", "anti wrinkle injection"], "demo_price": "starting from PKR 10,000 per area"},
     {"name": "Lip filler", "aliases": ["lip filler", "lip augmentation", "lip injection", "filler for lips"], "demo_price": "starting from PKR 15,000"},
-    {"name": "HIFU skin tightening", "aliases": ["hifu skin tightening", "hifu", "non surgical face lift", "skin tightening treatment"], "demo_price": "starting from PKR 15,000 per session"}
+    {"name": "Cheek filler", "aliases": ["cheek filler", "cheek augmentation"], "demo_price": "starting from PKR 20,000 per side"},
+    {"name": "Jawline filler", "aliases": ["jawline filler", "chin filler"], "demo_price": "starting from PKR 25,000"},
+    {"name": "Under-eye filler", "aliases": ["under eye filler", "tear trough filler", "tear trough"], "demo_price": "starting from PKR 25,000"},
+    {"name": "Non-surgical rhinoplasty", "aliases": ["non surgical rhinoplasty", "nose filler"], "demo_price": "starting from PKR 25,000"},
+    {"name": "HIFU skin tightening", "aliases": ["hifu skin tightening", "hifu", "non surgical face lift"], "demo_price": "starting from PKR 15,000 per session"},
+    {"name": "Thread lift", "aliases": ["thread lift", "pdo thread lift", "pdo threads"], "demo_price": "starting from PKR 20,000"},
+    {"name": "Glutathione skin brightening", "aliases": ["glutathione drip", "glutathione", "skin brightening drip"], "demo_price": "starting from PKR 4,000 per session"},
+    {"name": "Skin booster", "aliases": ["skin booster", "profhilo"], "demo_price": "starting from PKR 15,000 per session"},
+    {"name": "Mesotherapy", "aliases": ["mesotherapy"], "demo_price": "starting from PKR 5,000 per session"},
+    {"name": "Laser pigmentation treatment", "aliases": ["laser pigmentation", "laser for dark spots"], "demo_price": "starting from PKR 5,000 per session"},
+    {"name": "Laser skin resurfacing", "aliases": ["laser skin resurfacing", "laser resurfacing"], "demo_price": "starting from PKR 8,000 per session"},
+    {"name": "Smooth Face package", "aliases": ["smooth face package", "smooth face"], "demo_price": "starting from PKR 10,000"},
+    {"name": "Beautiful Lips package", "aliases": ["beautiful lips package", "beautiful lips"], "demo_price": "starting from PKR 15,000"},
+    {"name": "Chic Look package", "aliases": ["chic look package", "chic look"], "demo_price": "starting from PKR 30,000"},
+    {"name": "Healthy Skin package", "aliases": ["healthy skin package", "healthy skin"], "demo_price": "starting from PKR 12,000"},
+    {"name": "Soft Skin package", "aliases": ["soft skin package", "soft skin"], "demo_price": "starting from PKR 10,000"},
+    {"name": "No Mole package", "aliases": ["no mole package", "no mole"], "demo_price": "starting from PKR 8,000"},
+    {"name": "Bridal glow package", "aliases": ["bridal glow", "bridal package", "bridal facial"], "demo_price": "starting from PKR 15,000"}
   ],
 
   "not_publicly_listed": [
-    {"name": "Waxing", "aliases": ["waxing", "full body waxing", "body wax", "threading waxing"]}
+    {"name": "Waxing", "aliases": ["waxing", "full body waxing", "body wax", "threading waxing"]},
+    {"name": "Body contouring", "aliases": ["body contouring", "fat reduction", "coolsculpting", "liposuction"]},
+    {"name": "Surgical rhinoplasty", "aliases": ["surgical rhinoplasty", "nose surgery", "nose job surgery"]},
+    {"name": "Dental services", "aliases": ["dental", "teeth whitening dental", "dentist"]}
   ]
 }

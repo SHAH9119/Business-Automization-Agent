@@ -12,7 +12,10 @@ import re
 from typing import Any
 
 from app.catalog import ServiceCatalog
+from app.business_config import BusinessConfig, DEFAULT_ESCALATION_KEYWORDS
 from app.groq_client import GroqClient
+from app.integrations import WebhookNotifier
+from app.email_notifier import EmailNotifier
 from app.storage import JsonStorage
 
 
@@ -32,18 +35,7 @@ FIELD_LENGTH_LIMITS = {
 PHONE_PATTERN = re.compile(r"(\+?\d[\d\s().-]{8,}\d)")
 
 # If these words appear, the bot should be extra careful and involve a human.
-URGENT_WORDS = [
-    "emergency",
-    "urgent",
-    "bleeding",
-    "breathing",
-    "allergic",
-    "allergy",
-    "severe pain",
-    "swelling",
-    "infection",
-    "fever",
-]
+URGENT_WORDS = DEFAULT_ESCALATION_KEYWORDS
 
 # These words usually mean the user is interested in booking or a clinic service.
 BOOKING_PHRASES = [
@@ -121,6 +113,10 @@ class ReceptionistAgent:
         storage: JsonStorage,
         business_knowledge: str,
         service_catalog: ServiceCatalog | None = None,
+        business_config: BusinessConfig | None = None,
+        webhook_notifier: WebhookNotifier | None = None,
+        email_notifier: EmailNotifier | None = None,
+        channel: str = "telegram",
     ):
         # groq sends messages to the AI model.
         self.groq = groq
@@ -133,6 +129,18 @@ class ReceptionistAgent:
 
         # Structured catalog gives reliable service and demo-price answers.
         self.service_catalog = service_catalog
+
+        # Tenant settings from agent_config.json.
+        self.business_config = business_config or BusinessConfig({})
+
+        # Optional n8n / automation webhook.
+        self.webhook_notifier = webhook_notifier
+
+        # Optional Gmail SMTP alerts (no n8n required).
+        self.email_notifier = email_notifier
+
+        # Channel name stored on leads (telegram, whatsapp, sms, voice).
+        self.channel = channel
 
     async def reply(self, chat_id: str, user_text: str) -> tuple[str, str | None]:
         """Handle one incoming user message.
@@ -167,11 +175,11 @@ class ReceptionistAgent:
             staff_summary = None
 
         elif analysis.get("handoff_required") or self._looks_urgent(clean_text):
-            assistant_text, staff_summary = self._handle_handoff(chat_id, session, analysis)
+            assistant_text, staff_summary = await self._handle_handoff(chat_id, session, analysis)
 
         # Booking cases go to appointment collection flow.
         elif self._is_booking_flow(clean_text, session, analysis):
-            assistant_text, staff_summary = self._handle_booking(chat_id, session, analysis)
+            assistant_text, staff_summary = await self._handle_booking(chat_id, session, analysis)
 
         # Otherwise we just use the safe normal reply from Groq.
         else:
@@ -310,7 +318,7 @@ class ReceptionistAgent:
         if phone_match:
             profile["phone"] = re.sub(r"\s+", " ", phone_match.group(1)).strip()[:FIELD_LENGTH_LIMITS["phone"]]
 
-    def _handle_booking(
+    async def _handle_booking(
         self,
         chat_id: str,
         session: dict[str, Any],
@@ -334,11 +342,19 @@ class ReceptionistAgent:
             session["lead_saved"] = True
             session["status"] = "appointment_request_saved"
             session["last_lead_file"] = path.name
-            return self._booking_confirmation(session), self._staff_summary(chat_id, session, "appointment_request")
+            staff_summary = self._staff_summary(chat_id, session, "appointment_request")
+            await self._notify_integrations(
+                chat_id,
+                session,
+                status="appointment_request",
+                staff_summary=staff_summary,
+                lead_file=path.name,
+            )
+            return self._booking_confirmation(session), staff_summary
 
         return self._already_saved_message(session), None
 
-    def _handle_handoff(
+    async def _handle_handoff(
         self,
         chat_id: str,
         session: dict[str, Any],
@@ -359,17 +375,31 @@ class ReceptionistAgent:
             reply = self._urgent_handoff_reply(session)
         else:
             reply = self._normal_handoff_reply(session, analysis.get("reply") or "")
-        return reply, self._staff_summary(chat_id, session, "handoff_required")
+        staff_summary = self._staff_summary(chat_id, session, "handoff_required")
+        await self._notify_integrations(
+            chat_id,
+            session,
+            status="handoff_required",
+            staff_summary=staff_summary,
+            lead_file=session.get("last_lead_file"),
+        )
+        return reply, staff_summary
 
     def _urgent_handoff_reply(self, session: dict[str, Any]) -> str:
         """Reply for medical/urgent cases where the bot must be extra careful."""
+        phone = self.business_config.phone
+        phone_hint = f" {phone} par call karein" if phone else " clinic ko call karein"
+        phone_hint_en = f" at {phone}" if phone else ""
+
         if self._prefers_roman_urdu(session):
             return (
-                "Main is cheez ka medical assessment nahi kar sakta. Agar issue serious hai to clinic ko direct call karein "
-                "ya urgent care lein. Main staff ko details forward kar sakta hoon; naam aur phone number share kar dein."
+                "Main is cheez ka medical assessment nahi kar sakta. Agar issue serious hai to clinic ko direct"
+                f"{phone_hint} ya urgent care lein. Main staff ko details forward kar sakta hoon; "
+                "naam aur phone number share kar dein."
             )
         return (
-            "I cannot assess this medically. Please contact the clinic directly or seek urgent care if this is serious. "
+            "I cannot assess this medically. Please contact the clinic directly"
+            f"{phone_hint_en} or seek urgent care if this is serious. "
             "I can forward your details to staff; please share your name and phone number if you have not already."
         )
 
@@ -408,6 +438,9 @@ class ReceptionistAgent:
         """Create a lead file with profile details and recent messages."""
         lead = {
             "status": status,
+            "channel": self.channel,
+            "tenant_id": self.business_config.tenant_id,
+            "business_name": self.business_config.business_name,
             "profile": session["profile"],
             "handoff_required": session.get("handoff_required", False),
             "handoff_reason": session.get("handoff_reason"),
@@ -415,11 +448,47 @@ class ReceptionistAgent:
         }
         return self.storage.save_lead(chat_id, lead)
 
+    async def _notify_integrations(
+        self,
+        chat_id: str,
+        session: dict[str, Any],
+        *,
+        status: str,
+        staff_summary: str | None,
+        lead_file: str | None,
+    ) -> None:
+        profile = session["profile"]
+        business_name = self.business_config.business_name
+
+        if self.email_notifier:
+            await self.email_notifier.notify_lead(
+                business_name=business_name,
+                status=status,
+                channel=self.channel,
+                profile=profile,
+                staff_summary=staff_summary,
+            )
+
+        if self.webhook_notifier:
+            await self.webhook_notifier.notify_lead(
+                event="lead_saved",
+                channel=self.channel,
+                chat_id=chat_id,
+                business_name=business_name,
+                tenant_id=self.business_config.tenant_id,
+                status=status,
+                profile=profile,
+                staff_summary=staff_summary,
+                handoff_reason=session.get("handoff_reason"),
+                lead_file=lead_file,
+            )
+
     def _staff_summary(self, chat_id: str, session: dict[str, Any], status: str) -> str:
         """Create a short staff/admin alert message."""
         profile = session["profile"]
         return (
-            f"New {status.replace('_', ' ')}\n"
+            f"New {status.replace('_', ' ')} ({self.channel})\n"
+            f"Business: {self.business_config.business_name}\n"
             f"Chat ID: {chat_id}\n"
             f"Name: {profile.get('name') or 'Not provided'}\n"
             f"Phone: {profile.get('phone') or 'Not provided'}\n"
@@ -433,16 +502,19 @@ class ReceptionistAgent:
     def _booking_confirmation(self, session: dict[str, Any]) -> str:
         """Tell the user their appointment request has been noted."""
         profile = session["profile"]
+        contact = self.business_config.contact_line(roman_urdu=self._prefers_roman_urdu(session))
+        contact_suffix = f"\n\n{contact}" if contact else ""
+
         if self._prefers_roman_urdu(session):
             return (
                 f"Thank you {profile['name']}. Aapki appointment request {profile['concern']} ke liye "
                 f"{profile['preferred_day']} {profile['preferred_time']} par note ho gayi hai. "
-                "Staff exact slot confirm kar dega."
+                f"Staff exact slot confirm kar dega.{contact_suffix}"
             )
         return (
             f"Thank you, {profile['name']}. I have noted your appointment request for {profile['concern']} "
             f"on {profile['preferred_day']} around {profile['preferred_time']}. "
-            "A staff member can confirm the exact slot."
+            f"A staff member can confirm the exact slot.{contact_suffix}"
         )
 
     def _already_saved_message(self, session: dict[str, Any]) -> str:
@@ -462,7 +534,7 @@ class ReceptionistAgent:
             "phone": "Please share your phone number so staff can contact you.",
             "concern": "Which concern or service do you need help with?",
             "preferred_day": "Which day would you prefer for the appointment?",
-            "preferred_time": "What time window would suit you between 12 PM and 5 PM?",
+            "preferred_time": self.business_config.preferred_time_prompt(roman_urdu=False),
         }
 
         # Roman Urdu prompts for missing fields.
@@ -471,7 +543,7 @@ class ReceptionistAgent:
             "phone": "Staff contact ke liye apna phone number share kar dein.",
             "concern": "Aapko kis concern ya service ke liye appointment chahiye?",
             "preferred_day": "Aap kis din appointment prefer karein ge?",
-            "preferred_time": "12 PM se 5 PM ke darmiyan kaunsa time suit karega?",
+            "preferred_time": self.business_config.preferred_time_prompt(roman_urdu=True),
         }
 
         question = roman_prompts[field] if roman_urdu else prompts[field]
@@ -510,9 +582,10 @@ class ReceptionistAgent:
         return any(phrase in lowered for phrase in BOOKING_PHRASES)
 
     def _looks_urgent(self, user_text: str) -> bool:
-        """Basic keyword check for urgent messages."""
+        """Keyword check for urgent messages — uses tenant escalation list."""
         lowered = user_text.lower()
-        return any(word in lowered for word in URGENT_WORDS)
+        keywords = self.business_config.escalation_keywords or URGENT_WORDS
+        return any(word in lowered for word in keywords)
 
     def _prefers_roman_urdu(self, session: dict[str, Any]) -> bool:
         """Use the language selected from the latest customer message."""

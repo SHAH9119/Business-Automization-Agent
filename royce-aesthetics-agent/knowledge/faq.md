@@ -1,136 +1,197 @@
 # FAQ — Frequently Asked Questions
 
-This file contains the most common questions patients ask and how the agent should respond. Use this to give fast, confident, and consistent answers.
+Complete Q&A for the Royce Aesthetics agent. **Language rule:** If the patient writes in Urdu (script or Roman), respond in **Roman Urdu**. Otherwise respond in **English**. Keep answers short and end with a booking offer when relevant.
 
 ---
 
 ## GENERAL CLINIC QUESTIONS
 
-**Q: Where is Royal Aesthetic Clinic located?**
-> "The clinic is located on the Expressway, Sector F, above The Coffee Bean and Tea Leaf, Bahria Town Phase 7, Rawalpindi — easily accessible from both Rawalpindi and Islamabad."
+**Q: Where is Royal Aesthetic Clinic located? / Clinic kahan hai?**
+> EN: "The clinic is on the Expressway, Sector F, above The Coffee Bean and Tea Leaf, Bahria Town Phase 7, Rawalpindi — accessible from Islamabad and Rawalpindi."
+> UR: "Clinic Expressway par Sector F mein hai, Coffee Bean ke upar, Bahria Town Phase 7, Rawalpindi — Islamabad aur Rawalpindi dono se aana asaan hai."
 
-**Q: What are your clinic hours?**
-> "The clinic is open 7 days a week, from 12:00 PM to 5:00 PM."
+**Q: Phase 7 mein exactly kahan hai?**
+> "Expressway commercial strip par, Sector F — Coffee Bean ke bilkul upar. GPS par 'Royce Aesthetics Phase 7' search karein."
 
-**Q: Is the clinic open on weekends?**
-> "Yes! The clinic is open all 7 days, including Saturday and Sunday, from 12 PM to 5 PM."
+**Q: What are your clinic hours? / Timing kya hai?**
+> EN: "Open 7 days a week, 12:00 PM to 5:00 PM."
+> UR: "Clinic 7 din khuli hai — 12 PM se 5 PM tak."
 
-**Q: How do I contact the clinic?**
-> "You can reach the clinic at 0335-6377775 (also available on WhatsApp). You can also share your details with me and I'll forward your appointment request."
+**Q: Saturday/Sunday ko bhi open hai?**
+> "Haan, Saturday aur Sunday dono ko bhi 12 PM se 5 PM tak open hai."
 
-**Q: Is there a doctor on-site?**
-> "Yes, the clinic is led by a qualified dermatologist with 14+ years of experience. All treatments are performed or supervised by a specialist."
+**Q: How do I contact the clinic? / Number kya hai?**
+> EN: "Call or WhatsApp **0335-6377775**. You can also share details with me for an appointment request."
+> UR: "**0335-6377775** par call ya WhatsApp karein. Ya mujhe details dein, main appointment request note kar deta hoon."
 
-**Q: How many patients have been treated?**
-> "The clinic has served over 16,200 patients — making it one of the most experienced aesthetic clinics in the area."
+**Q: Is there a doctor on-site? / Doctor available hain?**
+> EN: "Yes — a qualified dermatologist with 14+ years of experience leads the clinic. All treatments are performed or supervised by a specialist."
+> UR: "Haan — qualified dermatologist 14+ saal ke experience ke sath clinic lead karte hain. Saari treatments specialist ki supervision mein hoti hain."
+
+**Q: Kitne patients treat ho chuke hain?**
+> "16,200+ patients treat ho chuke hain — twin cities ki trusted aesthetic clinic."
+
+**Q: Parking available hai?**
+> "Haan, plaza ke saamne parking available hai. Agar koi issue ho to **0335-6377775** par call karein."
+
+**Q: Islamabad se kitni der lagti hai?**
+> "Traffic ke hisaab se 25–40 minute lag sakte hain Expressway route se."
 
 ---
 
 ## APPOINTMENTS & BOOKING
 
-**Q: How do I book an appointment?**
-> "You can book through me right now! Just share your name, phone number, your concern or the treatment you're interested in, and your preferred day and time (12 PM – 5 PM). I'll note your request and the clinic team will confirm."
+**Q: How do I book an appointment? / Appointment kaise book ho gi?**
+> EN: "Share your name, phone, concern/treatment, and preferred day/time (12 PM–5 PM). I'll note the request and the clinic team will confirm."
+> UR: "Apna naam, number, concern/treatment, aur preferred din/time (12 PM–5 PM) batayein. Main request note kar doonga, clinic team confirm karegi."
 
-**Q: Can I walk in without an appointment?**
-> "The clinic does accept walk-ins, but an appointment ensures you get the right time slot. I'd recommend booking in advance to avoid waiting. Shall I note a request for you?"
+**Q: Walk-in ho sakta hai?**
+> EN: "Walk-ins are accepted, but booking ahead is recommended to avoid waiting."
+> UR: "Walk-in bhi ho sakta hai, lekin pehle se appointment lena behtar hai taake wait na karna pare."
 
-**Q: How long does an appointment take?**
-> "A consultation is usually 20–30 minutes. Treatment sessions vary — a HydraFacial takes about 45 minutes, laser sessions can be 15–60 minutes, and hair transplant procedures take several hours. The clinic team can give you an exact time estimate."
+**Q: Same day appointment mil sakti hai?**
+> "Kabhi kabhi available hoti hai — **0335-6377775** par call karein ya main request note kar doon?"
 
-**Q: Can I get a free consultation?**
-> "Consultation fees apply — starting from PKR 2,000–2,500. For some treatments, the clinic may offer a complimentary initial assessment. I'd recommend calling 0335-6377775 to confirm."
+**Q: Appointment kitni der ki hoti hai?**
+> "Consultation 20–30 minute. HydraFacial ~45 min, laser 15–60 min, hair transplant poora din."
 
-**Q: What if I need to cancel or reschedule?**
-> "Please call the clinic directly at 0335-6377775 to reschedule — it's best to inform them as early as possible."
+**Q: Free consultation hai?**
+> "Consultation fee lagti hai — **PKR 2,500 se start**. Kuch treatments mein yeh fee adjust ho sakti hai — clinic par confirm karein."
+
+**Q: Cancel ya reschedule kaise karein?**
+> EN: "Call **0335-6377775** to reschedule — early notice is appreciated."
+> UR: "Reschedule ke liye **0335-6377775** par call karein — jitni jaldi batayein utna behtar."
+
+**Q: Late ho jayein to?**
+> "15 minute se zyada late hon to clinic ko call kar ke bata dein: **0335-6377775**."
 
 ---
 
 ## SKIN TREATMENT QUESTIONS
 
-**Q: Do you treat acne?**
-> "Yes, acne treatment is one of the clinic's core specialties. The dermatologist will assess the type and severity of acne and recommend the right treatment plan — which may include peels, laser, topical treatments, or a combination. Shall I note an appointment?"
+**Q: Acne ka ilaj hota hai? / Do you treat acne?**
+> UR: "Haan, acne treatment clinic ki specialty hai. Dermatologist skin assess karke plan banate hain — peels, laser, ya combination. Appointment note karoon?"
+> EN: "Yes — acne is a core specialty. The dermatologist assesses and recommends peels, laser, or a combination. Shall I note an appointment?"
 
-**Q: Can you treat dark spots / pigmentation / melasma?**
-> "Yes! The clinic treats pigmentation, melasma, and dark spots using chemical peels, laser, or a combination of treatments. The right approach depends on your skin type and concern. Want me to book a consultation?"
+**Q: Dark spots / pigmentation / melasma?**
+> UR: "Haan — peels, laser, aur customized treatments available hain. Skin type ke hisaab se plan banega. Consultation book karein?"
 
-**Q: Do you offer HydraFacial?**
-> "Yes! HydraFacial is a popular treatment at the clinic. It deeply cleanses, exfoliates, and hydrates your skin in one session with no downtime. Suitable for most skin types — the dermatologist confirms suitability at your consultation. Starting from around PKR 8,000. Want to book a session?"
+**Q: HydraFacial available hai? Kitni cost?**
+> UR: "Haan! HydraFacial popular treatment hai — cleanse, exfoliate, hydrate ek session mein. **PKR 8,000 se start**. Final price clinic par confirm. Book karoon?"
 
-**Q: Do you do Botox?**
-> "Yes, Botox injections are available for forehead lines, frown lines, crow's feet, and more. Prices start from around PKR 10,000–25,000 per area. The exact amount and areas are decided by the dermatologist at consultation."
+**Q: Botox karte hain?**
+> UR: "Haan — forehead, frown lines, crow's feet sab areas. **PKR 10,000 se start** per area. Exact amount doctor decide karte hain."
 
-**Q: Do you do lip fillers?**
-> "Yes! Lip fillers (hyaluronic acid) are available for lip enhancement and definition. Starting from PKR 15,000–25,000 for 0.5 ml. The doctor will assess and discuss what looks natural and right for you."
+**Q: Lip filler / lips ka filler?**
+> UR: "Haan — hyaluronic acid lip filler available. **PKR 15,000 se start** (0.5 ml). Doctor natural look discuss karte hain consultation par."
 
-**Q: Can you remove my moles?**
-> "Yes, the clinic offers mole removal — using laser or surgical excision depending on the mole. Prices start from PKR 3,000 per mole. A quick assessment by the dermatologist is needed first."
+**Q: Mole hata sakte hain?**
+> UR: "Haan — laser ya surgical removal. **PKR 5,000 se start** per mole. Pehle dermatologist assessment zaroori hai."
 
-**Q: Do you offer skin brightening / whitening?**
-> "The clinic offers skin brightening treatments including glutathione IV drips, chemical peels, and laser treatments. These are not 'whitening' in the harsh sense — they target dullness, uneven tone, and pigmentation for a healthier glow."
+**Q: Skin whitening / brightening?**
+> UR: "Skin brightening treatments hain — glutathione drip, peels, laser. Yeh harsh 'whitening' nahi — dullness aur pigmentation ke liye healthier glow ke liye hain."
+
+**Q: Dark circles ka koi ilaj?**
+> UR: "Tear trough filler, peels, aur skin boosters discuss hote hain — doctor assessment ke baad decide hota hai. Consultation note karoon?"
+
+**Q: Bridal ke liye kya package hai?**
+> UR: "Bridal Glow package — HydraFacial + peel + brightening. **PKR 15,000 se start**. Shaadi se 2–4 hafte pehle book karna behtar hai."
 
 ---
 
 ## HAIR TREATMENT QUESTIONS
 
-**Q: Do you do hair transplant?**
-> "Yes! FUE and DHI hair transplants are available. The cost depends on the number of grafts needed, which is assessed at consultation. Packages typically start from around PKR 60,000–80,000. Shall I note a consultation request?"
+**Q: Hair transplant karte hain? / Cost?**
+> UR: "Haan — FUE aur DHI dono available. Cost grafts par depend karti hai, **PKR 60,000 se start**. Assessment ke baad exact plan. Consultation note karoon?"
 
-**Q: What is PRP for hair?**
-> "Hair PRP (Platelet-Rich Plasma) uses your own blood's growth factors, injected into the scalp to stimulate hair follicles and reduce hair fall. It's non-surgical. Typically 4–6 sessions are recommended, starting from PKR 8,000–15,000 per session."
+**Q: PRP kya hai? / Hair PRP kitne ki hai?**
+> UR: "PRP mein aapke khoon se growth factors nikal kar scalp mein inject hote hain — hair fall ke liye. **PKR 10,000 se start** per session. 4–6 sessions recommend hote hain."
 
-**Q: I'm losing hair. What should I do?**
-> "Hair loss can have different causes — the dermatologist will assess whether it's pattern baldness, hormonal, or nutritional and recommend the right treatment (PRP, fillers, threads, or transplant). Shall I note a consultation for you?"
+**Q: Baal gir rahe hain, kya karoon?**
+> UR: "Pehle dermatologist assess karein — PRP, mesotherapy, fillers, threads, ya transplant ho sakta hai. Main consultation note kar doon?"
 
-**Q: Do you do beard transplant?**
-> "Yes, beard transplants are available. Starting from around PKR 50,000 depending on the area and graft count needed."
+**Q: Beard transplant?**
+> UR: "Haan — patchy beard ke liye. **PKR 50,000 se start** depending on area."
 
-**Q: Do you offer laser hair removal?**
-> "Yes! Laser hair removal is available for all body areas for both men and women. Prices vary by area — upper lip starts from PKR 2,000 and full body packages from PKR 80,000 for a 6-session course."
+**Q: Laser hair removal? / Underarms ki price?**
+> UR: "Haan — saari body areas ke liye. Underarms **PKR 3,000 se start** per session. Full body packages **PKR 80,000 se start** (6 sessions)."
+
+**Q: Full body laser kitne ki hai?**
+> UR: "Full body **PKR 20,000 se start** per session. 6-session package **PKR 80,000 se start** — zyada affordable."
 
 ---
 
 ## PRICING QUESTIONS
 
-**Q: How much does a consultation cost?**
-> "A dermatologist consultation is around PKR 2,500. Final fee is confirmed at the clinic."
+**Q: Consultation kitni hai?**
+> "**PKR 2,500** estimated. Clinic par final confirm."
 
-**Q: How much is laser hair removal?**
-> "Laser hair removal prices depend on the body area treated. Small areas like upper lip start from PKR 2,000 per session, while full-body packages start from around PKR 80,000 for 6 sessions. 6–8 sessions are recommended for best results."
+**Q: Sab se sasti treatment kya hai?**
+> "Upper lip laser **PKR 2,000 se start** aur consultation **PKR 2,500**. Aap kis concern ke baare mein poochna chahte hain?"
 
-**Q: How much does HydraFacial cost?**
-> "A signature HydraFacial starts from around PKR 6,500–8,000 per session. The clinic team can confirm the current price at booking."
+**Q: Package / discount hai?**
+> UR: "Multi-session packages hain — PRP, laser, peels mein single session se sasta parta hai. Current offers ke liye main inquiry forward kar sakta hoon ya **0335-6377775** par call karein."
 
-**Q: How much does hair transplant cost?**
-> "Hair transplant pricing depends on the number of grafts required, which varies per patient. Packages typically start from PKR 60,000 for 1,000 grafts and go up from there. A free graft assessment can be discussed at consultation."
+**Q: Installment hoti hai hair transplant par?**
+> "Hair transplant par installments ho sakti hain — clinic staff se confirm karein: **0335-6377775**."
 
-**Q: Are there any packages or discounts?**
-> "The clinic offers multi-session packages for treatments like PRP, laser hair removal, and peels, which are more cost-effective than individual sessions. Please call 0335-6377775 or I can note your inquiry for the team to share current offers."
+**Q: Card / EasyPaisa se payment?**
+> UR: "Cash, card, aur mobile wallets usually accept hote hain — reception par confirm kar lein visit par."
 
 ---
 
 ## RESULTS & EXPECTATIONS
 
-**Q: How many sessions will I need?**
-> "The number of sessions depends on the treatment and your individual skin/hair condition. For example, laser hair removal typically needs 6–8 sessions, PRP needs 4–6, and chemical peels 3–6. The dermatologist will give you a personalized plan at consultation."
+**Q: Kitne sessions chahiye honge?**
+> UR: "Treatment aur condition par depend karta hai. Laser hair removal 6–8, PRP 4–6, peels 3–6 sessions. Doctor consultation par plan batate hain."
 
-**Q: When will I see results?**
-> "Results vary by treatment and individual. Some treatments like HydraFacial show immediate results, while others like PRP for hair or chemical peels for pigmentation take 4–8 weeks and multiple sessions. The doctor will set realistic expectations."
+**Q: Result kab dikhega?**
+> UR: "HydraFacial ka result foran, PRP/peels 4–8 hafte mein. Doctor realistic expectations batate hain."
 
-**Q: Are there any side effects?**
-> "All treatments carry some level of risk or downtime — for example, peels cause flaking, injections may cause minor swelling, and laser can cause temporary redness. The dermatologist will discuss risks and aftercare specific to your treatment before proceeding."
+**Q: Side effects hain?**
+> UR: "Har treatment ke kuch risks/downtime ho sakte hain — peels mein flaking, injections mein swelling. Doctor procedure se pehle explain karte hain."
 
 ---
 
-## OTHER QUESTIONS
+## PATIENT TYPE QUESTIONS
 
-**Q: Do you treat men as well?**
-> "Absolutely! The clinic serves both men and women. Beard transplants, hair transplants, laser hair removal for men, and skin treatments are all available."
+**Q: Larkon ke liye bhi? / Men ke liye services?**
+> UR: "Bilkul — beard transplant, hair transplant, laser, skin treatments sab men ke liye available hain."
 
-**Q: Is this treatment safe during pregnancy?**
-> "Many aesthetic treatments are not recommended during pregnancy. Please consult the dermatologist — they will advise what is safe. Shall I note a consultation request?"
+**Q: Pregnancy mein safe hai?**
+> UR: "Pregnancy mein kai aesthetic treatments recommend nahi hoti. Dermatologist se consult karein — main consultation note kar doon?"
 
-**Q: Do you have before/after photos I can see?**
-> "For before/after results, I'd recommend visiting the clinic's website at royceaesthetics.com or calling 0335-6377775 — the team can share relevant case results with you."
+**Q: CNIC lena zaroori hai?**
+> "Registration ke liye CNIC ya valid ID lena acha hota hai."
 
-**Q: Can I send photos for assessment?**
-> "The dermatologist prefers an in-person assessment for accurate diagnosis. I can note your appointment so you can get a proper evaluation. However, you're welcome to bring photos to your consultation as a reference."
+**Q: Photos bhej kar assessment ho sakti hai?**
+> UR: "Doctor in-person assessment prefer karte hain accurate diagnosis ke liye. Photos reference ke liye le kar aa sakte hain consultation par."
+
+**Q: Pehle bhi aaya tha / returning patient**
+> UR: "Welcome back! Follow-up session book karni hai ya naya concern hai? Naam aur preferred time batayein."
+
+---
+
+## OFF-TOPIC & BOUNDARY FAQ
+
+**Q: Aap kaun hain? / Are you a real person?**
+> UR: "Main Royce Aesthetics ka virtual assistant hoon — services, prices, aur appointments mein madad ke liye. Complex ya medical sawaalon ke liye clinic team ya doctor se baat ho sakti hai."
+
+**Q: Koi aur clinic recommend karo**
+> UR: "Main sirf Royce Aesthetics ke baare mein bata sakta hoon. Aap consultation ke liye visit kar ke khud decide kar sakte hain."
+
+**Q: Mujhe kya treatment chahiye? / Which treatment is best for me?**
+> UR: "Yeh doctor assessment ke baad decide hota hai — main diagnose nahi kar sakta. Consultation note kar doon taake dermatologist guide karein?"
+
+**Q: Guarantee hai result ki?**
+> UR: "Results har patient mein different hote hain — koi guarantee nahi di ja sakti. Doctor realistic expectations consultation par batate hain."
+
+**Q: Job vacancy hai?**
+> "Job ke liye clinic ko directly call karein: **0335-6377775**."
+
+---
+
+## EMERGENCY (Always Escalate)
+
+**Q: Reaction ho gaya / face swollen / allergy**
+> UR: "⚠️ Yeh urgent lag raha hai. Abhi **0335-6377775** par call karein ya nearest emergency hospital jayein. Main aapki details clinic team ko forward kar sakta hoon — naam aur number batayein."
